@@ -10,7 +10,7 @@
   <meta name="description" content="ECHO — Singularity Protocol. Puzzle temporel en 30 niveaux." />
   <title>ECHO — Singularity Protocol</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="reforged.css" />
+  <link rel="stylesheet" href="v5.css" />
 </head>
 <body>
 <div id="app">
@@ -40,6 +40,11 @@
     <span class="objective-label">OBJECTIF</span>
     <span class="objective-main"><span id="objectiveText">Atteins la sortie</span><small id="objectiveProgress">PRÊT</small></span>
     <span id="shardCount" class="shard-count hidden">◆ 0/0</span>
+  </div>
+
+  <div id="coachTip" class="coach-tip hidden" aria-live="polite">
+    <span class="coach-index">GUIDE</span>
+    <span class="coach-copy"><strong id="coachTitle">PREMIÈRE TRACE</strong><small id="coachText">Déplace-toi vers la plaque.</small></span>
   </div>
 
   <div id="timeline" class="timeline hidden">
@@ -77,7 +82,7 @@
     <div class="ambient a1"></div><div class="ambient a2"></div><div class="ambient a3"></div>
     <div class="menu-card">
       <div class="logo-mark"><div class="orbit o1"></div><div class="orbit o2"></div><div class="core"></div></div>
-      <div class="menu-kicker"><span class="live-dot"></span><span>PROTOCOL ONLINE</span><b>V4 // REFORGED</b></div>
+      <div class="menu-kicker"><span class="live-dot"></span><span>PROTOCOL ONLINE</span><b>V5 // ASCENSION</b></div>
       <p class="eyebrow">SINGULARITY PROTOCOL</p>
       <h1>ECHO</h1>
       <p class="tagline">Tes erreurs deviennent des alliés. <strong>Ta chronologie devient une armée.</strong></p>
@@ -129,6 +134,7 @@
       </div>
       <div id="newRecord" class="new-record hidden">NOUVEAU RECORD</div>
       <div class="performance-box"><strong id="performanceNote">CHRONOLOGIE STABLE</strong><span id="parInfo">PAR · 0 ÉCHO</span></div>
+      <div id="challengeRow" class="challenge-row" aria-label="Défis du niveau"></div>
       <button id="nextBtn" class="primary-btn">NIVEAU SUIVANT</button>
       <button id="winLevelsBtn" class="secondary-btn">CHRONOLOGIE</button>
     </div>
