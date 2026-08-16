@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover, user-scalable=no" />
+  <meta name="theme-color" content="#060916" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <title>ECHO — Singularity Protocol</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div id="app">
+  <canvas id="game" aria-label="ECHO — jeu de puzzle temporel"></canvas>
+
+  <div id="topbar" class="hud hidden">
+    <div class="brand-mini"><span class="brand-dot"></span><span>ECHO</span></div>
+    <div class="mission-head">
+      <div class="level-title" id="levelTitle">01 · Première trace</div>
+      <div class="act-title" id="actTitle">ACTE I · ÉVEIL</div>
+    </div>
+    <div class="hud-actions">
+      <button id="zoomOutBtn" class="icon-btn mobile-only" aria-label="Dézoomer">−</button>
+      <button id="audioBtn" class="icon-btn" aria-label="Son">🔊</button>
+      <button id="pauseBtn" class="icon-btn" aria-label="Pause">Ⅱ</button>
+    </div>
+  </div>
+
+  <button id="hintToggle" class="hint-toggle hidden" aria-label="Afficher l'aide">?</button>
+  <div id="hint" class="hint hidden"></div>
+
+  <div id="objectiveBar" class="objective-bar hidden">
+    <span class="objective-label">OBJECTIF</span>
+    <span id="objectiveText">Atteins la sortie</span>
+    <span id="shardCount" class="shard-count hidden">◆ 0/0</span>
+  </div>
+
+  <div id="timeline" class="timeline hidden">
+    <div class="timeline-row">
+      <div class="timer"><span id="timerText">24.0</span><small>s</small></div>
+      <div class="bar"><div id="timeFill"></div></div>
+      <button id="sealBtn" class="seal-btn">SCELLER</button>
+    </div>
+    <div id="echoChips" class="echo-chips"></div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+  <div id="comms" class="comms"></div>
+  <div id="rotateHint" class="rotate-hint">
+    <div class="rotate-phone">▯</div>
+    <strong>Tourne ton téléphone</strong>
+    <span>Le mode paysage affiche toute l’arène.</span>
+  </div>
+
+  <div id="touchControls" class="touch-controls hidden">
+    <div id="joystick" class="joystick">
+      <div class="joy-ring"></div>
+      <div id="joyKnob" class="joy-knob"></div>
+    </div>
+    <div class="touch-buttons">
+      <button id="dashBtn" class="touch-btn dash hidden"><span>✦</span><small>DASH</small></button>
+      <button id="interactBtn" class="touch-btn action">ACTION</button>
+      <button id="touchSealBtn" class="touch-btn seal"><span>↺</span><small>ÉCHO</small></button>
+    </div>
+  </div>
+
+  <section id="menu" class="screen menu-screen">
+    <div class="ambient a1"></div><div class="ambient a2"></div><div class="ambient a3"></div>
+    <div class="menu-card">
+      <div class="logo-mark"><div class="orbit o1"></div><div class="orbit o2"></div><div class="core"></div></div>
+      <p class="eyebrow">SINGULARITY PROTOCOL</p>
+      <h1>ECHO</h1>
+      <p class="tagline">Tes erreurs deviennent des alliés. <strong>Ta chronologie devient une armée.</strong></p>
+      <button id="playBtn" class="primary-btn">CONTINUER</button>
+      <button id="levelsBtn" class="secondary-btn">CHRONOLOGIE · 30 NIVEAUX</button>
+      <div class="menu-meta">
+        <span id="progressText">0/30 terminés</span><span>•</span><span id="bestStars">0/90 ★</span>
+      </div>
+      <div class="record-strip">
+        <div><b id="totalLoops">0</b><small>boucles</small></div>
+        <div><b id="totalFractures">0</b><small>fractures</small></div>
+        <div><b id="perfectLevels">0</b><small>★★★</small></div>
+      </div>
+    </div>
+    <p class="footer-note">WASD / flèches · Action : E / espace · Sceller : R · Dash : Shift</p>
+  </section>
+
+  <section id="levelSelect" class="screen hidden">
+    <div class="panel wide">
+      <div class="panel-header">
+        <div><p class="eyebrow">CHRONOLOGIE</p><h2>Campagne</h2><p class="panel-sub">30 protocoles · 5 actes · 90 étoiles</p></div>
+        <button class="close-btn" data-close="levelSelect">×</button>
+      </div>
+      <div id="levelGrid" class="level-grid"></div>
+    </div>
+  </section>
+
+  <section id="pauseScreen" class="screen hidden">
+    <div class="panel compact">
+      <p class="eyebrow">TEMPS SUSPENDU</p><h2>Pause</h2>
+      <button id="resumeBtn" class="primary-btn">REPRENDRE</button>
+      <button id="restartBtn" class="secondary-btn">RECOMMENCER</button>
+      <button id="pauseLevelsBtn" class="secondary-btn">CHRONOLOGIE</button>
+      <button id="menuBtn" class="ghost-btn">MENU PRINCIPAL</button>
+    </div>
+  </section>
+
+  <section id="winScreen" class="screen hidden">
+    <div class="panel compact victory">
+      <div class="victory-icon">✦</div>
+      <p class="eyebrow">PARADOXE STABILISÉ</p>
+      <h2 id="winTitle">Niveau terminé</h2>
+      <div id="starRow" class="stars">★★★</div>
+      <div class="stats">
+        <div><span id="statEchoes">0</span><small>Échos</small></div>
+        <div><span id="statTime">0.0s</span><small>Temps</small></div>
+        <div><span id="statLoops">0</span><small>Boucles</small></div>
+      </div>
+      <div id="newRecord" class="new-record hidden">NOUVEAU RECORD</div>
+      <button id="nextBtn" class="primary-btn">NIVEAU SUIVANT</button>
+      <button id="winLevelsBtn" class="secondary-btn">CHRONOLOGIE</button>
+    </div>
+  </section>
+
+  <section id="introScreen" class="screen hidden">
+    <div class="panel story-panel">
+      <div class="story-visual"><div class="story-ring r1"></div><div class="story-ring r2"></div><div class="story-person p1"></div><div class="story-person p2"></div></div>
+      <p class="eyebrow">PROTOCOLE ECHO</p>
+      <h2>Tu n’es pas le premier toi.</h2>
+      <p>Le Protocole ECHO enregistre chacune de tes trajectoires. À la boucle suivante, ton ancien toi la rejoue exactement. Mais au-delà de la fracture, quelque chose observe toutes tes versions… et commence à répondre.</p>
+      <div class="tutorial-pills"><span>① AGIS</span><span>② SCELLE</span><span>③ COOPÈRE</span></div>
+      <button id="introBtn" class="primary-btn">ENTRER DANS LA FRACTURE</button>
+    </div>
+  </section>
+
+  <section id="endingScreen" class="screen hidden">
+    <div class="panel ending-panel">
+      <p class="eyebrow">PROTOCOLE 30 · TERMINÉ</p>
+      <div class="ending-zero">0</div>
+      <h2>La chronologie choisit de survivre.</h2>
+      <p>La Source ne disparaît pas. Elle se divise en toutes les versions que tu as créées. Écho Zéro cesse d’être une anomalie : il devient le premier souvenir d’un monde où plusieurs passés peuvent coexister.</p>
+      <p class="ending-quote">« Tu pensais créer des copies. Tu construisais une civilisation de secondes. »</p>
+      <button id="endingLevelsBtn" class="primary-btn">REVENIR À LA CHRONOLOGIE</button>
+      <button id="endingMenuBtn" class="secondary-btn">MENU PRINCIPAL</button>
+    </div>
+  </section>
+
+  <section id="actScreen" class="screen hidden">
+    <div class="panel compact act-panel">
+      <p class="eyebrow" id="actEyebrow">ACTE II</p>
+      <div class="act-glyph" id="actGlyph">◇</div>
+      <h2 id="actScreenTitle">RÉSONANCE</h2>
+      <p id="actScreenText">La chronologie commence à répondre à ta présence.</p>
+      <button id="actContinueBtn" class="primary-btn">CONTINUER</button>
+    </div>
+  </section>
+</div>
+<script src="game.js"></script>
+</body>
+</html>
