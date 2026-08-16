@@ -7,8 +7,10 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="description" content="ECHO — Singularity Protocol. Puzzle temporel en 30 niveaux." />
   <title>ECHO — Singularity Protocol</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="reforged.css" />
 </head>
 <body>
 <div id="app">
@@ -19,6 +21,10 @@
     <div class="mission-head">
       <div class="level-title" id="levelTitle">01 · Première trace</div>
       <div class="act-title" id="actTitle">ACTE I · ÉVEIL</div>
+    </div>
+    <div class="live-status" aria-live="polite">
+      <span id="loopBadge">BOUCLE 01</span>
+      <span id="echoBadge">0 ÉCHO</span>
     </div>
     <div class="hud-actions">
       <button id="zoomOutBtn" class="icon-btn mobile-only" aria-label="Dézoomer">−</button>
@@ -32,7 +38,7 @@
 
   <div id="objectiveBar" class="objective-bar hidden">
     <span class="objective-label">OBJECTIF</span>
-    <span id="objectiveText">Atteins la sortie</span>
+    <span class="objective-main"><span id="objectiveText">Atteins la sortie</span><small id="objectiveProgress">PRÊT</small></span>
     <span id="shardCount" class="shard-count hidden">◆ 0/0</span>
   </div>
 
@@ -47,6 +53,8 @@
 
   <div id="toast" class="toast"></div>
   <div id="comms" class="comms"></div>
+  <div id="statusPulse" class="status-pulse" aria-hidden="true"></div>
+  <div class="cinematic-vignette" aria-hidden="true"></div>
   <div id="rotateHint" class="rotate-hint">
     <div class="rotate-phone">▯</div>
     <strong>Tourne ton téléphone</strong>
@@ -69,11 +77,13 @@
     <div class="ambient a1"></div><div class="ambient a2"></div><div class="ambient a3"></div>
     <div class="menu-card">
       <div class="logo-mark"><div class="orbit o1"></div><div class="orbit o2"></div><div class="core"></div></div>
+      <div class="menu-kicker"><span class="live-dot"></span><span>PROTOCOL ONLINE</span><b>V4 // REFORGED</b></div>
       <p class="eyebrow">SINGULARITY PROTOCOL</p>
       <h1>ECHO</h1>
       <p class="tagline">Tes erreurs deviennent des alliés. <strong>Ta chronologie devient une armée.</strong></p>
       <button id="playBtn" class="primary-btn">CONTINUER</button>
       <button id="levelsBtn" class="secondary-btn">CHRONOLOGIE · 30 NIVEAUX</button>
+      <div class="campaign-progress" aria-label="Progression de la campagne"><span><b id="campaignLabel">CAMPAGNE</b><small id="continueHint">PROTOCOLE 01</small></span><div class="campaign-track"><i id="campaignFill"></i></div></div>
       <div class="menu-meta">
         <span id="progressText">0/30 terminés</span><span>•</span><span id="bestStars">0/90 ★</span>
       </div>
@@ -118,6 +128,7 @@
         <div><span id="statLoops">0</span><small>Boucles</small></div>
       </div>
       <div id="newRecord" class="new-record hidden">NOUVEAU RECORD</div>
+      <div class="performance-box"><strong id="performanceNote">CHRONOLOGIE STABLE</strong><span id="parInfo">PAR · 0 ÉCHO</span></div>
       <button id="nextBtn" class="primary-btn">NIVEAU SUIVANT</button>
       <button id="winLevelsBtn" class="secondary-btn">CHRONOLOGIE</button>
     </div>
